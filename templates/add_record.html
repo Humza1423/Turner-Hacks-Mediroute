@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Add Medical Record{% endblock %}
+
+{% block content %}
+<h1>Add Medical Record</h1>
+<div class="row mt-4">
+    <div class="col-md-8">
+        <form method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="date_of_birth" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="tel" class="form-control" id="phone" name="phone" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="medical_conditions" class="form-label">Medical Conditions</label>
+                <textarea class="form-control" id="medical_conditions" name="medical_conditions" rows="3"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="medications" class="form-label">Current Medications</label>
+                <textarea class="form-control" id="medications" name="medications" rows="3"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %} 

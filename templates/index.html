@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Medical Records - Home{% endblock %}
+
+{% block content %}
+<style>
+    .records-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .records-title {
+        color: var(--text-primary);
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .table-container {
+        background: var(--bg-dark);
+        border-radius: 12px;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table th {
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        padding: 1rem;
+        border-bottom: 2px solid var(--border-color);
+        color: var(--text-muted);
+    }
+
+    .table td {
+        padding: 1rem;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-primary);
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.03);
+    }
+
+    .btn-add {
+        background: var(--primary-color);
+        color: var(--text-primary);
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-add:hover {
+        background: #0088dd;
+        color: var(--text-primary);
+        transform: translateY(-1px);
+    }
+
+    .btn-view {
+        background: var(--bg-light);
+        color: var(--text-primary);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-view:hover {
+        background: var(--primary-color);
+        color: var(--text-primary);
+    }
+
+    .alert {
+        background: var(--bg-dark);
+        border: 1px solid var(--border-color);
+        color: var(--text-muted);
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+    }
+</style>
+
+<div class="records-header">
+    <h1 class="records-title">Medical Records</h1>
+    <a href="{{ url_for('signup') }}" class="btn btn-add">
+        <i class="fas fa-plus"></i>
+        Add New Record
+    </a>
+</div>
+
+{% if records %}
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Date of Birth</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                    <tr>
+                        <td>{{ record.first_name }} {{ record.last_name }}</td>
+                        <td>{{ record.email }}</td>
+                        <td>{{ record.phone }}</td>
+                        <td>{{ record.date_of_birth.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <a href="{{ url_for('view_record', id=record.id) }}" class="btn btn-view">View</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert">No medical records found.</div>
+{% endif %}
+{% endblock %} 

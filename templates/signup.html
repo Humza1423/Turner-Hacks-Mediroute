@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - Medical Assistant{% endblock %}
+
+{% block content %}
+<style>
+    .signup-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 30px;
+        background: #2d2e32;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .signup-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .signup-header h2 {
+        color: #e0e0e0;
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .signup-header p {
+        color: #888;
+        font-size: 1rem;
+    }
+
+    .form-section {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        color: #00a3ff;
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-floating {
+        margin-bottom: 15px;
+    }
+
+    .form-floating > label {
+        color: #888;
+    }
+
+    .form-control {
+        background-color: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff !important;
+        height: 50px;
+    }
+
+    .form-control:focus {
+        background-color: rgba(0, 0, 0, 0.4);
+        border-color: #00a3ff;
+        box-shadow: 0 0 0 2px rgba(0, 163, 255, 0.2);
+        color: #fff;
+    }
+
+    textarea.form-control {
+        height: 100px;
+    }
+
+    .btn-signup {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #00a3ff 0%, #0066ff 100%);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-weight: 500;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-signup:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #888;
+    }
+
+    .login-link a {
+        color: #00a3ff;
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    .btn-cancel:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+    }
+</style>
+
+<div class="container">
+    <div class="signup-container">
+        <div class="signup-header">
+            <h2>Create Your Account</h2>
+            <p>Join us to manage your health journey</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('signup') }}">
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-user"></i>
+                    Personal Information
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required>
+                            <label for="first_name">First Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required>
+                            <label for="last_name">Last Name</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                            <label for="email">Email Address</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone" required>
+                            <label for="phone">Phone Number</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating">
+                    <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
+                    <label for="date_of_birth">Date of Birth</label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-lock"></i>
+                    Security
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    <label for="password">Password</label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-notes-medical"></i>
+                    Medical Information
+                </div>
+                <div class="form-floating">
+                    <textarea class="form-control" id="medical_conditions" name="medical_conditions" placeholder="Medical Conditions"></textarea>
+                    <label for="medical_conditions">Medical Conditions (Optional)</label>
+                </div>
+                <div class="form-floating">
+                    <textarea class="form-control" id="medications" name="medications" placeholder="Current Medications"></textarea>
+                    <label for="medications">Current Medications (Optional)</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-signup">Create Account</button>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="{{ url_for('login') }}">Log in here</a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

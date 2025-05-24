@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block title %}Medical Record - {{ record.first_name }} {{ record.last_name }}{% endblock %}
+
+{% block content %}
+<style>
+    .record-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 30px;
+        background: #2d2e32;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .record-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .patient-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .patient-avatar {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #00a3ff 0%, #0066ff 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+        text-transform: uppercase;
+    }
+
+    .patient-details h2 {
+        color: #e0e0e0;
+        margin: 0;
+        font-size: 1.8rem;
+    }
+
+    .patient-id {
+        color: #888;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+
+    .record-section {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        color: #00a3ff;
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .info-item {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .info-label {
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+
+    .info-value {
+        color: #e0e0e0;
+        font-size: 1.1rem;
+    }
+
+    .medical-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .medical-item {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        color: #e0e0e0;
+    }
+
+    .medical-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .btn-edit {
+        background: linear-gradient(135deg, #00a3ff 0%, #0066ff 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-edit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+    }
+
+    .created-date {
+        color: #888;
+        font-size: 0.9rem;
+        text-align: right;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="record-container">
+        <div class="record-header">
+            <div class="patient-info">
+                <div class="patient-avatar">
+                    {{ record.first_name[0] }}{{ record.last_name[0] }}
+                </div>
+                <div class="patient-details">
+                    <h2>{{ record.first_name }} {{ record.last_name }}</h2>
+                    <div class="patient-id">Patient ID: {{ record.id }}</div>
+                </div>
+            </div>
+            <button class="btn btn-edit">
+                <i class="fas fa-edit"></i> Edit Record
+            </button>
+        </div>
+
+        <div class="record-section">
+            <div class="section-title">
+                <i class="fas fa-user"></i>
+                Personal Information
+            </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Date of Birth</div>
+                    <div class="info-value">{{ record.date_of_birth.strftime('%B %d, %Y') }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">{{ record.email }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Phone</div>
+                    <div class="info-value">{{ record.phone }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Age</div>
+                    <div class="info-value">{{ (record.date_of_birth.today() - record.date_of_birth).days // 365 }} years</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="record-section">
+            <div class="section-title">
+                <i class="fas fa-notes-medical"></i>
+                Medical Conditions
+            </div>
+            <ul class="medical-list">
+                {% if record.medical_conditions %}
+                    {% for condition in record.medical_conditions.split(',') %}
+                        <li class="medical-item">{{ condition.strip() }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li class="medical-item">No medical conditions recorded</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="record-section">
+            <div class="section-title">
+                <i class="fas fa-pills"></i>
+                Current Medications
+            </div>
+            <ul class="medical-list">
+                {% if record.medications %}
+                    {% for medication in record.medications.split(',') %}
+                        <li class="medical-item">{{ medication.strip() }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li class="medical-item">No medications recorded</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="created-date">
+            Account created on {{ record.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+        </div>
+    </div>
+</div>
+{% endblock %} 
