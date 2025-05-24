@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Busyness Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hospital Busyness Tracker</h1>
+            <div class="controls">
+                <label for="busyness-slider">Adjust Busyness Level:</label>
+                <input type="range" id="busyness-slider" min="0" max="100" value="50">
+                <span id="busyness-value">50%</span>
+            </div>
+        </header>
+        
+        <div class="map-container">
+            <div class="map" id="hospital-map">
+                <!-- Hospitals will be added dynamically via JavaScript -->
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <span class="color-box low"></span>
+                <span>Low Busyness</span>
+            </div>
+            <div class="legend-item">
+                <span class="color-box medium"></span>
+                <span>Medium Busyness</span>
+            </div>
+            <div class="legend-item">
+                <span class="color-box high"></span>
+                <span>High Busyness</span>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+</html> 
